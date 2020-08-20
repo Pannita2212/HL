@@ -63,7 +63,7 @@ for i in range(len(dt_hl)):
     pointPerOne.append(value)
 
     hl.append(pointPerOne)
-print('HL each person:', hl)
+# print('HL each person:', hl)
 
 def addition(n): 
     return n + n
@@ -93,11 +93,13 @@ lst_hl1 = []
 for i in range(125):
     val = hl[i][0]
     lst_hl1.append(val)
+print(lst_hl1)
 
 lst_hl2 = []
 for i in range(125):
     val = hl[i][1]
     lst_hl2.append(val)
+# print(lst_hl2)
 
 lst_hl3 = []
 for i in range(125):
@@ -124,6 +126,14 @@ for i in range(125):
     val = hl[i][6]
     lst_hl.append(val)
 
+def loop (lst, val):
+    for i in hl:
+        for j in i:
+            lst.append(val)
+    print(lst)
+
+loop(lst_hl1, hl[i][0])
+# loop(lst_hl2, hl[i][1])
 
 
 # Plot bar chart AllHL------------------------------------------------------------
@@ -170,7 +180,7 @@ for i in range(len(beh)):
             beh.iloc[i][j]
     data.append(value)
 
-print("Behavior each person", data)
+# print("Behavior each person", data)
 
 '''
 for i in data:
@@ -187,7 +197,9 @@ for i in data:
 
 
 # ==============================================Write to csv=========================================================
+'''
 zipList =  list(zip(lst_hl1, lst_hl2, lst_hl3, lst_hl4, lst_hl5, lst_hl6, lst_hl, data))
 
 result = pd.DataFrame(zipList, columns=['HL1', 'HL2', 'HL3', 'HL4', 'HL5', 'HL6', 'SUM_HL', 'Behavior'])
 result.to_csv('result.csv')
+'''
