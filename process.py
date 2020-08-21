@@ -90,50 +90,43 @@ sum_hl.append(len(l_good))
 sum_hl.append(len(l_exc))
 
 lst_hl1 = []
-for i in range(125):
-    val = hl[i][0]
-    lst_hl1.append(val)
-print(lst_hl1)
+# for i in range(125):
+#     val = hl[i][0]
+#     lst_hl1.append(val)
+# print(lst_hl1)
 
 lst_hl2 = []
-for i in range(125):
-    val = hl[i][1]
-    lst_hl2.append(val)
+# for i in range(125):
+#     val = hl[i][1]
+#     lst_hl1.append(val)
 # print(lst_hl2)
 
 lst_hl3 = []
-for i in range(125):
-    val = hl[i][2]
-    lst_hl3.append(val)
-
 lst_hl4 = []
-for i in range(125):
-    val = hl[i][3]
-    lst_hl4.append(val)
-
 lst_hl5 = []
-for i in range(125):
-    val = hl[i][4]
-    lst_hl5.append(val)
-
 lst_hl6 = []
-for i in range(125):
-    val = hl[i][5]
-    lst_hl6.append(val)
-
 lst_hl = []
-for i in range(125):
-    val = hl[i][6]
-    lst_hl.append(val)
 
-def loop (lst, val):
-    for i in hl:
-        for j in i:
-            lst.append(val)
-    print(lst)
 
-loop(lst_hl1, hl[i][0])
-# loop(lst_hl2, hl[i][1])
+def loop (lst):
+    for i in range(len(hl)):
+        val = 0
+        index = 0
+        for j in hl:
+            val += int(dt_hl.iloc[i][j])
+            index += 1
+            if index in [7, 11, 15, 19 ,23, 27]:
+                lst.append(val)
+                val = 0
+        print(lst)
+
+loop(lst_hl1)
+# loop(lst_hl2)
+# loop(lst_hl3)
+# loop(lst_hl4)
+# loop(lst_hl5)
+# loop(lst_hl6)
+# loop(lst_hl)s
 
 
 # Plot bar chart AllHL------------------------------------------------------------
