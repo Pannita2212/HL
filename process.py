@@ -99,28 +99,25 @@ lst_hl2 = []
 # for i in range(125):
 #     val = hl[i][1]
 #     lst_hl1.append(val)
-# print(lst_hl2)
+# print(lst_hl)
 
 lst_hl3 = []
 lst_hl4 = []
 lst_hl5 = []
 lst_hl6 = []
 lst_hl = []
+print(hl)
 
+'''
+def loop (lst, val):
+    for i in hl:
+        for j in i:
+            val[j]
+            lst.append(val)
+    print(lst)
 
-def loop (lst):
-    for i in range(len(hl)):
-        val = 0
-        index = 0
-        for j in hl:
-            val += int(dt_hl.iloc[i][j])
-            index += 1
-            if index in [7, 11, 15, 19 ,23, 27]:
-                lst.append(val)
-                val = 0
-        print(lst)
-
-loop(lst_hl1)
+loop(lst_hl1, hl[i][1])
+'''
 # loop(lst_hl2)
 # loop(lst_hl3)
 # loop(lst_hl4)
