@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 form = pd.read_csv('data_clean.csv', sep=',')
 
 #==============================================Demographic============================================
+'''
 temp = {
     "ชาย": 1,
     "หญิง": 2,
@@ -25,30 +26,49 @@ temp = {
     "อนุปริญญา/ปวส.": 5,
     "ปริญญาตรีขึ้นไป": 6
 }
-
+'''
 dt_demo = form[['sex', 'age', 'edu']]
 demo = []
-# for i in range(len(dt_demo)):
-#     value = 0
-#     index = 0
-#     pointPerOne = []
-#     for j in dt_demo:
-#         if index in [2, 3, 4]:
-#             pointPerOne.append(value)
-#             value = 0
-#     demo.append(pointPerOne)
+for i in range(len(dt_demo)):
+    value = ''
+    index = 0
+    person = []
+    for j in dt_demo:
+        value = dt_demo.iloc[i][j]
+        index += 1
+        if index in [1, 2, 3]:
+            person.append(value)
+            value = 0
+    demo.append(person)
 
-# print(demo)
+sex = []
+for i in range(125):
+    val = demo[i][0]
+    sex.append(val)
+
+age = []
+for i in range(125):
+    val = demo[i][1]
+    age.append(val)
+
+edu = []
+for i in range(125):
+    val = demo[i][2]
+    edu.append(val)
 
 #==============================================Health Literacy============================================
 # Create dataframe all questions about HL
 dt_hl = form[['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10', 'Q11', 'Q12', 'Q13' ,'Q14', 'Q15', 'Q16', 'Q17', 'Q18', 'Q19', 'Q20', 'Q21', 'Q22', 'Q23', 'Q24']]
 
 hl = []
+sum_hl = []; l_poor = []
+l_fair = []; l_good = []; l_exc = []
+
 for i in range(len(dt_hl)):
     value = 0
     index = 3
     pointPerOne = []
+    temp = 0
     for j in dt_hl:
         # Check NaN value
         if pd.isna(dt_hl.iloc[i][j]) == False:
@@ -62,6 +82,15 @@ for i in range(len(dt_hl)):
         value += k
     pointPerOne.append(value)
 
+    if value < 72:
+        pointPerOne.append('Poor')
+    elif 72 <= value < 84:
+        pointPerOne.append('Fair')
+    elif 84 <= value < 96:
+        pointPerOne.append('Good')
+    else:
+        pointPerOne.append('Excellent')
+    
     hl.append(pointPerOne)
 # print('HL each person:', hl)
 
@@ -72,7 +101,7 @@ def getResult_HL(index: int):
     return sum(list(map(lambda x: x[index], hl)))/(len(form))
 # for indexs in range(6):
 #     print((getResult_HL(indexs)))
-
+'''
 sum_hl = []; l_poor = []
 l_fair = []; l_good = []; l_exc = []
 for i in range(125):
@@ -84,30 +113,53 @@ for i in range(125):
         l_good.append('Good')
     else:
         l_exc.append('Excellent')
-sum_hl.append(len(l_poor))
-sum_hl.append(len(l_fair))
-sum_hl.append(len(l_good))
-sum_hl.append(len(l_exc))
+sum_hl.append(l_poor)
+sum_hl.append(l_fair)
+sum_hl.append(l_good)
+sum_hl.append(l_exc)
+# print(sum_hl)
+'''
 
 lst_hl1 = []
-# for i in range(125):
-#     val = hl[i][0]
-#     lst_hl1.append(val)
-# print(lst_hl1)
+for i in range(125):
+    val = hl[i][0]
+    lst_hl1.append(val)
 
 lst_hl2 = []
-# for i in range(125):
-#     val = hl[i][1]
-#     lst_hl1.append(val)
-# print(lst_hl)
+for i in range(125):
+    val = hl[i][1]
+    lst_hl2.append(val)
 
 lst_hl3 = []
-lst_hl4 = []
-lst_hl5 = []
-lst_hl6 = []
-lst_hl = []
-print(hl)
+for i in range(125):
+    val = hl[i][2]
+    lst_hl3.append(val)
 
+lst_hl4 = []
+for i in range(125):
+    val = hl[i][3]
+    lst_hl4.append(val)
+
+lst_hl5 = []
+for i in range(125):
+    val = hl[i][4]
+    lst_hl5.append(val)
+
+lst_hl6 = []
+for i in range(125):
+    val = hl[i][5]
+    lst_hl6.append(val)
+
+lst_hl = []
+for i in range(125):
+    val = hl[i][6]
+    lst_hl.append(val)
+# print(hl)
+
+lev_hl = []
+for i in range(125):
+    val = hl[i][7]
+    lev_hl.append(val)
 '''
 def loop (lst, val):
     for i in hl:
@@ -118,31 +170,6 @@ def loop (lst, val):
 
 loop(lst_hl1, hl[i][1])
 '''
-# loop(lst_hl2)
-# loop(lst_hl3)
-# loop(lst_hl4)
-# loop(lst_hl5)
-# loop(lst_hl6)
-# loop(lst_hl)s
-
-
-# Plot bar chart AllHL------------------------------------------------------------
-obj = ('Poor', 'Fair', 'Good','Excellent')
-ylim = plt.ylim(0, 125)
-pos = np.arange(len(obj))
-
-plt.bar(pos, sum_hl, align='center', alpha=0.5, color=['yellowgreen', 'gold', 'lightskyblue', 'lightcoral'])
-for index, value in enumerate(sum_hl):
-    plt.text(index, value, str(value), horizontalalignment='center', verticalalignment='center')
-
-plt.xticks(pos, obj)
-plt.xlabel('Level')
-plt.ylabel('Person')
-plt.title('Health Literacy Level')
-# plt.show()
-# --------------------------------------------------------------------------------
-
-
 
 # ==============================================Behavior=========================================================
 # Create dataframe all questions about Behavior
@@ -161,6 +188,7 @@ val = {
 }
 
 data = []
+lev_beh = []
 for i in range(len(beh)):
     value = 0
     for j in beh:
@@ -169,27 +197,23 @@ for i in range(len(beh)):
         else:
             beh.iloc[i][j]
     data.append(value)
-
-# print("Behavior each person", data)
-
-'''
-for i in data:
-    val = data[i]+16
-    if val < 49:
-        print(val, 'Poor')
-    elif 50 < val < 57:
-        print(val, 'Fair')
-    elif 58 < val < 65:
-        print(val, 'Good')  
+    value += 16
+    if value < 49:
+        lev_beh.append('Poor')
+    elif 50 < value < 57:
+        lev_beh.append('Fair')
+    elif 58 < value < 65:
+        lev_beh.append('Good')  
     else:
-        print(val, 'Excellent')
-'''
+        lev_beh.append('Excellent')
+    
+    data.append(value)
+# print("Behavior each person", data)
 
 
 # ==============================================Write to csv=========================================================
-'''
-zipList =  list(zip(lst_hl1, lst_hl2, lst_hl3, lst_hl4, lst_hl5, lst_hl6, lst_hl, data))
 
-result = pd.DataFrame(zipList, columns=['HL1', 'HL2', 'HL3', 'HL4', 'HL5', 'HL6', 'SUM_HL', 'Behavior'])
+zipList =  list(zip(sex, age, edu, lst_hl1, lst_hl2, lst_hl3, lst_hl4, lst_hl5, lst_hl6, lst_hl, lev_hl, data, lev_beh))
+
+result = pd.DataFrame(zipList, columns=['Sex', 'Age', 'Education', 'HL1', 'HL2', 'HL3', 'HL4', 'HL5', 'HL6', 'SUM_HL','Level HL', 'Behavior', 'Level Beh'])
 result.to_csv('result.csv')
-'''
