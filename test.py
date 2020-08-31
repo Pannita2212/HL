@@ -5,6 +5,32 @@ import matplotlib.pyplot as plt
 
 form = pd.read_csv('data_clean.csv', sep=',')
 
+
+# =========demo===========
+
+'''
+temp = {
+    "ชาย": 1,
+    "หญิง": 2,
+    "ไม่ต้องการระบุ": 3,
+    "Bisexual": 4,
+    "น้อยกว่า 20 ปี": 1,
+    "20-29 ปี": 2,
+    "30-39 ปี": 3,
+    "40-49 ปี": 4,
+    "50-59 ปี": 5,
+    "60 ปีขึ้นไป": 6,
+    "ไม่ได้เรียนหนังสือ": 1,
+    "ประถมศึกษา": 2,
+    "มัธยมศึกษาตอนต้น": 3,
+    "มัธยมศึกษาตอนปลาย/ปวช.": 4,
+    "อนุปริญญา/ปวส.": 5,
+    "ปริญญาตรีขึ้นไป": 6
+}
+'''
+
+
+
 """
 HL1 = Q1	Q2	Q3	Q4
 HL2 = Q5	Q6	Q7	Q8
@@ -145,6 +171,25 @@ for i in tot_hl['SUM_HL']:
 # print("Mean all val\n")
 # print(hl1.mean()); print(hl2.mean()); print(hl3.mean())
 # print(hl4.mean()); print(hl5.mean()); print(hl6.mean())
+
+'''
+sum_hl = []; l_poor = []
+l_fair = []; l_good = []; l_exc = []
+for i in range(125):
+    if hl[i][6] < 72:
+        l_poor.append('Poor')
+    elif 72 <= hl[i][6] < 84:
+        l_fair.append('Fair')
+    elif 84 <= hl[i][6] < 96:
+        l_good.append('Good')
+    else:
+        l_exc.append('Excellent')
+sum_hl.append(l_poor)
+sum_hl.append(l_fair)
+sum_hl.append(l_good)
+sum_hl.append(l_exc)
+# print(sum_hl)
+'''
 
 #------------------------ End sum and mean---------------------------
 
