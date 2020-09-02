@@ -46,7 +46,9 @@ def calculateDemographic(form):
             eduDict[eduVal] = 1
         edu.append(eduVal)
 # print(sexDict, eduDict, ageDict)
-
+    sex.sort()
+    age.sort()
+    edu.sort()
     return sex, age, edu
 
 
@@ -59,8 +61,11 @@ def calculateHL(form):
     dt_hl = form[['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10', 'Q11', 'Q12', 'Q13' ,'Q14', 'Q15', 'Q16', 'Q17', 'Q18', 'Q19', 'Q20', 'Q21', 'Q22', 'Q23', 'Q24']]
 
     hl = []
-    sum_hl = []; l_poor = []
-    l_fair = []; l_good = []; l_exc = []
+    sum_hl = []
+    l_poor = []
+    l_fair = []
+    l_good = []
+    l_exc = []
 
     for i in range(len(dt_hl)):
         value = 0
@@ -80,6 +85,7 @@ def calculateHL(form):
             value += k
         pointPerOne.append(value)
 
+        # Check Level of HL
         if value < 72:
             pointPerOne.append('Poor')
         elif 72 <= value < 84:
@@ -119,7 +125,7 @@ def calculateHL(form):
 '''==============================================Behavior Data========================================================='''
 def calculateBehavior(form):
     # Create dataframe all questions about Behavior
-    beh = form[['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B16', 'B17', 'B18']]
+    dt_beh = form[['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B16', 'B17', 'B18']]
     # Create dict for convert str to int
     val = {
         "ทุกครั้ง": 4,
@@ -133,16 +139,16 @@ def calculateBehavior(form):
         "ไม่ปฏิบัติ (1)": 1
     }
 
-    data = []
+    beh = []
     lev_beh = []
-    for i in range(len(beh)):
+    for i in range(len(dt_beh)):
         value = 0
-        for j in beh:
-            if beh.iloc[i][j] in val:
-                value += int(val[beh.iloc[i][j]])
+        for j in dt_beh:
+            if dt_beh.iloc[i][j] in val:
+                value += int(val[dt_beh.iloc[i][j]])
             else:
-                beh.iloc[i][j]
-        data.append(value)
+                dt_beh.iloc[i][j]
+        beh.append(value)
         value += 16
         if value < 49:
             lev_beh.append('Poor')
@@ -153,9 +159,9 @@ def calculateBehavior(form):
         else:
             lev_beh.append('Excellent')
         
-        data.append(value)
-    # print("Behavior each person", data)
-    return data, lev_beh
+        beh.append(value)
+    # print("Behavior each person", beh)
+    return beh, lev_beh
 
 
 '''==============================================Write to csv========================================================='''
@@ -172,12 +178,11 @@ def writeCSV(output: {}):
         output['lst_hl6'],
         output['lst_hl'],
         output['lev_hl'],
-        output['data'],
+        output['beh'],
         output['lev_beh']
     ))
 
-    result = pd.DataFrame(zipList, columns=['Sex', 'Age', 'Education', 'HL1', 'HL2', 'HL3', 'HL4', 'HL5', 
-        'HL6', 'SUM_HL','Level HL', 'Behavior', 'Level Beh'])
+    result = pd.DataFrame(zipList, columns=['Sex', 'Age', 'Education', 'HL1', 'HL2', 'HL3', 'HL4', 'HL5', 'HL6', 'SUM_HL','Level_HL', 'Behavior', 'Level_Beh'])
     result.to_csv('result2.csv')
 
 
@@ -197,7 +202,7 @@ def main():
     output['lst_hl5'], output['lst_hl6'], output['lst_hl'], output['lev_hl'] = calculateHL(form)
 
     # Call function calculateBehavior() 
-    output['data'], output['lev_beh'] = calculateBehavior(form)
+    output['beh'], output['lev_beh'] = calculateBehavior(form)
 
     # Call function writeCSV
     writeCSV(output)
