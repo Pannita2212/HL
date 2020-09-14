@@ -289,6 +289,7 @@ plt.title("Health Literacy")
 plt.show()
 '''
 
+'''
 # Plot Pie Chart All HL
 labels = ['Poor', 'Fair', 'Good','Excellent']
 
@@ -299,6 +300,7 @@ ax1.pie(list_allHL, explode=explode, labels=labels, autopct='%0.2f%%', shadow=Tr
 
 plt.title("Health Literacy Level")
 plt.show()
+'''
 
 # -------------------------------------------Plot bar chart--------------------------------------------------
 '''
@@ -360,3 +362,5 @@ plt.ylabel('Behavior point', fontsize=10)
 plt.grid(True)
 # plt.show()
 '''
+
+

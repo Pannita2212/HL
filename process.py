@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+from csv import writer
 
 
 '''==============================================Demographic Data============================================'''
@@ -99,8 +100,9 @@ def calculateHL(form):
     # print('HL each person:', hl)
 
     # ---------This is average of 6 HL----------
-    # for indexs in range(6):
-    #     print((averageHL(indexs, form, hl)))
+    mean_hl =[]
+    for indexs in range(6):
+        mean_hl.append((averageHL(indexs, form, hl)))
 
     lst_hl1 = []
     lst_hl2 = []
@@ -110,7 +112,9 @@ def calculateHL(form):
     lst_hl6 = []
     lst_hl = []
     lev_hl = []
+    lastIndex = 0
     for i in range(len(hl)):
+        lastIndex += 1
         lst_hl1.append(hl[i][0])
         lst_hl2.append(hl[i][1])
         lst_hl3.append(hl[i][2])
@@ -148,7 +152,6 @@ def calculateBehavior(form):
                 value += int(val[dt_beh.iloc[i][j]])
             else:
                 dt_beh.iloc[i][j]
-        beh.append(value)
         value += 16
         if value < 49:
             lev_beh.append('Poor')
@@ -163,9 +166,25 @@ def calculateBehavior(form):
     # print("Behavior each person", beh)
     return beh, lev_beh
 
-
 '''==============================================Write to csv========================================================='''
-def writeCSV(output: {}):
+def writeCSV(output: {}, form):
+    hl_avg = ['lst_hl1', 'lst_hl2', 'lst_hl3', 'lst_hl4', 'lst_hl5', 'lst_hl6']
+
+    for item in output:
+        valueCal = 0
+        if item in hl_avg:
+            for i in output[item]:
+                valueCal += i
+            output[item].append(valueCal / len(form))
+        
+    output['sex'].append('')
+    output['age'].append('')
+    output['edu'].append('Average')
+    output['lst_hl'].append('')
+    output['beh'].append('')
+    output['lev_beh'].append('')
+    output['lev_hl'].append('')
+    
     zipList =  list(zip(
         output['sex'],
         output['age'],
@@ -182,11 +201,20 @@ def writeCSV(output: {}):
         output['lev_beh']
     ))
 
-    result = pd.DataFrame(zipList, columns=['Sex', 'Age', 'Education', 'HL1', 'HL2', 'HL3', 'HL4', 'HL5', 'HL6', 'SUM_HL','Level_HL', 'Behavior', 'Level_Beh'])
+    result = pd.DataFrame(zipList, columns=['Sex', 'Age', 'Education', 'HL1', 'HL2', 'HL3', 'HL4', 'HL5', 'HL6', 'SUM_HL', 'Level_HL', 'Behavior', 'Level_Beh'])
     result.to_csv('result2.csv')
 
+'''
+def append_row(file_name, lst_of_elem):
+    # Open file in append mode
+    with open(file_name, 'a+', newline='') as write_obj:
+        # Create a writer object from csv module
+        csv_writer = writer(write_obj)
+        # Add contents of list as last row in the csv file
+        csv_writer.writerow(lst_of_elem)
+'''
 
-# Function read csv file
+# Function for read csv file
 def readCSVFile():
     return pd.read_csv('data_clean.csv', sep=',')
 
@@ -205,5 +233,7 @@ def main():
     output['beh'], output['lev_beh'] = calculateBehavior(form)
 
     # Call function writeCSV
-    writeCSV(output)
+    writeCSV(output, form)
+
+    # append_row('result2.csv', output['mean_hl'])
 main()

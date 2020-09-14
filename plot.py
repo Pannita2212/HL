@@ -28,13 +28,11 @@ for i in range(len(data)):
            hl_exc += 1 
     
 lev_hl.append(hl_poor)
-lev_hl.append(hl_fair)
-lev_hl.append(hl_good)
-lev_hl.append(hl_exc)
 '''
 
 # Function for count each Level
-def countLev(col, lst, poor, fair, good, exc):
+def countLev(col, poor, fair, good, exc):
+    lst = []
     data = result[[col]]
     for i in range(len(data)):
         index = 0
@@ -53,6 +51,7 @@ def countLev(col, lst, poor, fair, good, exc):
     lst.append(fair)
     lst.append(good)
     lst.append(exc)
+    return lst
 
 
 # Function for plot Level Bar Chart 
@@ -66,19 +65,26 @@ def plotBarLev(obj, data: [], title):
 
     plt.xticks(pos, obj)
     plt.xlabel('Level')
-    plt.ylabel('Person')
+    plt.ylabel('Number of Responses')
     plt.title(title)
     plt.show()
 
+def plotPieHL(list_hl):
+    labels = ['HL1', 'HL2', 'HL3', 'HL4', 'HL5', 'HL6']
+    # colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'gray', 'pink']
 
+    explode = (0, 0, 0, 0.1, 0, 0) 
+    fig1, ax1 = plt.subplots()
+    ax1.pie(list_hl, explode=explode, labels=labels, autopct='%.2f', shadow=True, startangle=0)
+    ax1.axis('equal')
+
+
+plt.title("Health Literacy")
+plt.show()
+# Function Main!!
 def main():
-    lev_beh = []
-    lev_hl = []
-    countLev('Level_Beh', lev_beh, 0, 0, 0, 0)
-    countLev('Level_HL', lev_hl, 0, 0, 0, 0)
-
     lev = ('Poor', 'Fair', 'Good','Excellent')
-    plotBarLev(lev, lev_hl, 'Health Literacy Level')
-    plotBarLev(lev, lev_beh, 'Behavior Level')
+    plotBarLev(lev, countLev('Level_HL', 0, 0, 0, 0), 'Health Literacy Level')
+    plotBarLev(lev, countLev('Level_Beh', 0, 0, 0, 0), 'Behavior Level')
 
 main()
