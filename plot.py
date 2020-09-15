@@ -78,11 +78,27 @@ def plotPieHL(list_hl):
     ax1.pie(list_hl, explode=explode, labels=labels, autopct='%.2f', shadow=True, startangle=0)
     ax1.axis('equal')
 
+    plt.title("Health Literacy")
+    plt.show()
 
-plt.title("Health Literacy")
-plt.show()
+def plotLineBev(col):
+    data = result[[col]]
+    x_lst = []
+    for i in range(len(data)):
+        x_lst.append(i)
+
+    plt.plot(x_lst, data, color='red')
+    ylim = plt.ylim(0, 100)
+    plt.title('Behavior point per person', fontsize=14)
+    plt.xlabel('Number of Responses', fontsize=10)
+    plt.ylabel('Behavior point', fontsize=10)
+    plt.grid(True)
+    plt.show()
+
+
 # Function Main!!
 def main():
+    plotLineBev('Behavior')
     lev = ('Poor', 'Fair', 'Good','Excellent')
     plotBarLev(lev, countLev('Level_HL', 0, 0, 0, 0), 'Health Literacy Level')
     plotBarLev(lev, countLev('Level_Beh', 0, 0, 0, 0), 'Behavior Level')
